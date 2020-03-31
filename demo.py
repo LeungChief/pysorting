@@ -1,8 +1,6 @@
 '''
     计数排序
 '''
-
-
 def countingSort(nums):
     bucket = [0] * (max(nums) + 1)  # 桶的个数
     for num in nums:  # 将元素值作为键值存储在桶中，记录其出现的次数
@@ -15,12 +13,33 @@ def countingSort(nums):
             i += 1
     return nums
 
+'''
+    计数排序另一种写法
+'''
+def countingSort2(list):
+    min = 2147483647
+    max = 0
+    # 取得最大值和最小值
+    for x in list:
+        if x < min:
+            min = x
+        if x > max:
+            max = x
+    # 创建数组C
+    count = [0] * (max - min +1)
+    for index in list:
+        count[index - min] += 1
+    index = 0
+    # 填值
+    for a in range(max - min+1):
+        for c in range(count[a]):
+            list[index] = a + min
+            index += 1
+    return list
 
 '''
     堆排序
 '''
-
-
 # 大根堆（从小打大排列）
 def heapSort(nums):
     # 调整堆
@@ -40,13 +59,11 @@ def heapSort(nums):
             # 第 2 个参数传入 largest 的索引是交换前大数字对应的索引
             # 交换后该索引对应的是小数字，应该把该小数字向下调整
             adjustHeap(nums, largest, size)
-
     # 建立堆
     def builtHeap(nums, size):
-        for i in range(len(nums) // 2)[::-1]:  # 从倒数第一个非叶子结点开始建立大根堆
-            adjustHeap(nums, i, size)  # 对所有非叶子结点进行堆的调整
+        for i in range(len(nums)//2)[::-1]: # 从倒数第一个非叶子结点开始建立大根堆
+            adjustHeap(nums, i, size) # 对所有非叶子结点进行堆的调整
         # print(nums)  # 第一次建立好的大根堆
-
     # 堆排序
     size = len(nums)
     builtHeap(nums, size)
@@ -58,11 +75,10 @@ def heapSort(nums):
     return nums  # 由于每次大的都会放到后面，因此最后的 nums 是从小到大排列
 
 
+
 '''
     快速排序
 '''
-
-
 def quickSort(nums):  # 这种写法的平均空间复杂度为 O(nlogn)
     if len(nums) <= 1:
         return nums
@@ -78,8 +94,6 @@ def quickSort(nums):  # 这种写法的平均空间复杂度为 O(nlogn)
 @param left: 数组上界
 @param right: 数组下界
 '''
-
-
 def quickSort2(nums, left, right):  # 这种写法的平均空间复杂度为 O(logn)
     # 分区操作
     def partition(nums, left, right):
@@ -91,21 +105,19 @@ def quickSort2(nums, left, right):  # 这种写法的平均空间复杂度为 O(
             while left < right and nums[left] <= pivot:
                 left += 1
             nums[right] = nums[left]  # 比基准大交换到后面
-        nums[left] = pivot  # 基准值的正确位置，也可以为 nums[right] = pivot
+        nums[left] = pivot # 基准值的正确位置，也可以为 nums[right] = pivot
         return left  # 返回基准值的索引，也可以为 return right
-
     # 递归操作
     if left < right:
         pivotIndex = partition(nums, left, right)
         quickSort2(nums, left, pivotIndex - 1)  # 左序列
-        quickSort2(nums, pivotIndex + 1, right)  # 右序列
+        quickSort2(nums, pivotIndex + 1, right) # 右序列
     return nums
 
 
 '''
     归并排序
 '''
-
 
 def mergeSort(nums):
     # 归并过程
@@ -119,9 +131,8 @@ def mergeSort(nums):
             else:
                 result.append(right[j])
                 j += 1
-        result = result + left[i:] + right[j:]  # 剩余的元素直接添加到末尾
+        result = result + left[i:] + right[j:] # 剩余的元素直接添加到末尾
         return result
-
     # 递归过程
     if len(nums) <= 1:
         return nums
@@ -129,3 +140,4 @@ def mergeSort(nums):
     left = mergeSort(nums[:mid])
     right = mergeSort(nums[mid:])
     return merge(left, right)
+
